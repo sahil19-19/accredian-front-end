@@ -6,7 +6,8 @@ import Layout from "../../components/layout/layout";
 const home = () => {
     return (
         <Layout>
-            <Typography>
+            <Typography sx={{
+            }}>
                 Hello, this is home page
                 <br/>
                 Click on 'Refer' to refer your friend and earn exciting rewards

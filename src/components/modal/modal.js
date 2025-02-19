@@ -20,7 +20,8 @@ import {
 
 const ReferralModal = ({ open, onClose }) => {
     const apiURL = process.env.REACT_APP_BACKEND_URL;
-    // console.log(apiURL);
+    const userEmail = process.env.REACT_APP_EMAIL_USER;
+    console.log(userEmail);
 
     const [value, setPhone] = useState("");
     const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -49,8 +50,8 @@ const ReferralModal = ({ open, onClose }) => {
                             const formJson = Object.fromEntries(
                                 formData.entries()
                             );
-                            // const email = formJson;
-                            console.log(formJson);
+
+                            // console.log(formJson);
                             setPhone("");
 
                             try {
@@ -83,10 +84,12 @@ const ReferralModal = ({ open, onClose }) => {
                         margin="dense"
                         id="referrerEmail"
                         name="referrerEmail"
-                        label="Your email address"
                         type="email"
                         fullWidth
                         variant="outlined"
+                        label="Your email"
+                        disabled
+                        defaultValue={userEmail}
                     />
                     <TextField
                         autoFocus
@@ -147,7 +150,7 @@ const ReferralModal = ({ open, onClose }) => {
                     onClose={() => setSnackbarOpen(false)}
                     severity="success"
                 >
-                    Referral Successful, we will send you an email shortly!
+                    Referral Successful, An email has been sent to your friend!
                 </Alert>
             </Snackbar> 
             ):(

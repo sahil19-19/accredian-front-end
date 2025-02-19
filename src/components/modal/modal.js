@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MuiTelInput } from "mui-tel-input";
+import axios from "axios";
 
 import {
     Button,
@@ -17,12 +18,13 @@ import {
     Snackbar,
 } from "@mui/material";
 
-
-
 const ReferralModal = ({ open, onClose }) => {
+    const apiURL = process.env.REACT_APP_BACKEND_URL;
+    // console.log(apiURL);
+
     const [value, setPhone] = useState("");
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-
+    const [isSuccess, setSuccess] = useState(false);
 
     const handleChange = (newValue) => {
         setPhone(newValue);
@@ -41,7 +43,7 @@ const ReferralModal = ({ open, onClose }) => {
                 slotProps={{
                     paper: {
                         component: "form",
-                        onSubmit: (event) => {
+                        onSubmit: async (event) => {
                             event.preventDefault();
                             const formData = new FormData(event.currentTarget);
                             const formJson = Object.fromEntries(
@@ -50,6 +52,18 @@ const ReferralModal = ({ open, onClose }) => {
                             // const email = formJson;
                             console.log(formJson);
                             setPhone("");
+
+                            try {
+                                await axios.post(
+                                    `${apiURL}/api/referrals`,
+                                    formJson
+                                );
+                                setSuccess(true);
+                            } catch (err) {
+                                console.log(err.message);
+                                setSuccess(false);
+                            }
+
                             setSnackbarOpen(true);
                             onClose();
                         },
@@ -65,8 +79,8 @@ const ReferralModal = ({ open, onClose }) => {
                         autoFocus
                         required
                         margin="dense"
-                        id="referrer_email"
-                        name="referrer_email"
+                        id="referrerEmail"
+                        name="referrerEmail"
                         label="Your email address"
                         type="email"
                         fullWidth
@@ -76,8 +90,8 @@ const ReferralModal = ({ open, onClose }) => {
                         autoFocus
                         required
                         margin="dense"
-                        id="referee_email"
-                        name="referee_email"
+                        id="refereeEmail"
+                        name="refereeEmail"
                         label="Email address of your friend"
                         type="email"
                         fullWidth
@@ -87,8 +101,8 @@ const ReferralModal = ({ open, onClose }) => {
                         autoFocus
                         required
                         margin="dense"
-                        id="referee_name"
-                        name="referee_name"
+                        id="refereeName"
+                        name="refereeName"
                         label="Name of your friend"
                         type="text"
                         fullWidth
@@ -98,8 +112,8 @@ const ReferralModal = ({ open, onClose }) => {
                         autoFocus
                         required
                         margin="dense"
-                        id="referee_number"
-                        name="referee_number"
+                        id="refereeNumber"
+                        name="refereeNumber"
                         label="Number of your friend"
                         fullWidth
                         value={value}
@@ -107,7 +121,7 @@ const ReferralModal = ({ open, onClose }) => {
                     />
                     <FormControl fullWidth margin="dense" required>
                         <InputLabel id="menu">Courses</InputLabel>
-                        <Select label="courses" name="courses">
+                        <Select label="courses" name="refCourse">
                             <MenuItem value={"mongodb"}>Mongodb</MenuItem>
                             <MenuItem value={"express"}>Express</MenuItem>
                             <MenuItem value={"node"}>Node</MenuItem>
@@ -120,6 +134,7 @@ const ReferralModal = ({ open, onClose }) => {
                     <Button type="submit">Refer</Button>
                 </DialogActions>
             </Dialog>
+            {isSuccess ? ( 
             <Snackbar
                 open={snackbarOpen}
                 autoHideDuration={4000} // Hide after 4 seconds
@@ -130,9 +145,21 @@ const ReferralModal = ({ open, onClose }) => {
                     onClose={() => setSnackbarOpen(false)}
                     severity="success"
                 >
-                    Referral Successful, we will send you an email.
+                    Referral Successful, we will send you an email shortly!
+                </Alert>
+            </Snackbar> 
+            ):(
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={4000} // Hide after 4 seconds
+                onClose={() => setSnackbarOpen(false)}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            >
+                <Alert onClose={() => setSnackbarOpen(false)} severity="error">
+                    There was an error while submitted the referral!
                 </Alert>
             </Snackbar>
+            )}
         </>
     );
 };

@@ -56,7 +56,9 @@ const ReferralModal = ({ open, onClose }) => {
                             try {
                                 await axios.post(
                                     `${apiURL}/api/referrals`,
-                                    formJson
+                                    formJson, {
+                                        headers: { "Content-Type": "application/json" }
+                                    }
                                 );
                                 setSuccess(true);
                             } catch (err) {

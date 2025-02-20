@@ -1,5 +1,14 @@
 #  Front end for Accredian full stack assignment
 
+##  Working demo video
+
+    ```
+    https://www.loom.com/share/ef8d927e56fb404ebbed0f68ac84473d?sid=67666352-0f8f-4d8c-b566-f044de7de9c1
+    ```
+##  Screenshot of email
+    ![image](https://github.com/user-attachments/assets/652899d7-83c4-47a3-8384-6c36a92c98d0)
+
+
 ##  Created using
 -  Material UI
 -  React.js

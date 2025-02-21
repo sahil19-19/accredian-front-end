@@ -13,7 +13,7 @@
 -  Material UI
 -  React.js
 
-###  Note: Since there was no way to host MySQL database pressing "Refer" button in the modal returns back an error as no database is connected, however you can still use the app on localhost
+###  Note: Since there was no way to host MySQL database with Prisma for free, pressing "Refer" button in the modal returns back an error as no database is connected, however you can still use the app on localhost
 
 ##  Steps to use app on localhost
 -  Clone repository
